@@ -17,7 +17,6 @@ using the test datasetprepared in Task 2.
     - ROC curves
     - Precision-Recall curves
 5. Produce a comparison table summarizing all metrics.
-6. (Optional for later): Save plots and results for reporting.
 """
 
 # Import libraries
@@ -98,7 +97,44 @@ def evaluate_models():
         plt.ylabel("Actual")
         plt.show()
 
+
     # Convert metrics dictionary to DataFrame
     df = pd.DataFrame(metrics).T
     print("Model Performance Overview:\n")
     print(df)
+
+
+
+    # ROC Curves
+    print("Generating ROC curves...\n")
+    plt.figure(figsize=(8, 6))
+    for name, model in models.items():
+        y_prob = model.predict_proba(X_test)[:, 1]
+        fpr, tpr, _ = roc_curve(y_test, y_prob)
+        plt.plot(fpr, tpr, label=f"{name} (AUC={roc_auc_score(y_test, y_prob):.3f})")
+
+    plt.xlabel("False Positive Rate")
+    plt.ylabel("True Positive Rate")
+    plt.title("ROC Curve Comparison")
+    plt.legend()
+    plt.tight_layout()
+    plt.show()
+
+
+
+    # Precision-Recall Curves
+    print("Generating Precision–Recall curves...\n")
+    plt.figure(figsize=(8, 6))
+    for name, model in models.items():
+        y_prob = model.predict_proba(X_test)[:, 1]
+        precision, recall, _ = precision_recall_curve(y_test, y_prob)
+        plt.plot(recall, precision, label=name)
+
+    plt.xlabel("Recall")
+    plt.ylabel("Precision")
+    plt.title("Precision–Recall Curve Comparison")
+    plt.legend()
+    plt.tight_layout()
+    plt.show()
+
+evaluate_models()
