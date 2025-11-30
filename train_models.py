@@ -107,7 +107,7 @@ def train_all_models(csv_path="creditcard_2023.csv"):
     rf, rf_train_time = train_random_forest(X_train, y_train)
     print(f"Random Forest trained. (Time: {rf_train_time:.2f} sec)\n")
 
-    print("Training XGBoost (this may take ~30–90 seconds)...")
+    print("Training XGBoost...")
     xgb, xgb_train_time = train_xgboost(X_train, y_train)
     print(f"XGBoost trained. (Time: {xgb_train_time:.2f} sec)\n")
 

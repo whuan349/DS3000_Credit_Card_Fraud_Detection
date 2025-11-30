@@ -9,14 +9,18 @@ using the test datasetprepared in Task 2.
 1. Load the preprocessed test dataset (X_test, y_test).
 2. Load the trained models saved by Task 3.
 3. Compute key performance metrics for each model:
+    - Accuracy
     - Precision
     - Recall
     - F1-score
     - AUC-ROC
-4. Plot and compare:
+    - R2 Score
+    - RMSE
+4. Produce a comparison table summarizing all metrics.
+5. Plot and compare:
     - ROC curves
     - Precision-Recall curves
-5. Produce a comparison table summarizing all metrics.
+6. Determine Random Forest feature importance on the PCA features.
 """
 
 # Import libraries
@@ -137,4 +141,28 @@ def evaluate_models():
     plt.tight_layout()
     plt.show()
 
-evaluate_models()
+
+    # Random Forest feature importances
+    print("Computing Random Forest feature importance...\n")
+    importances = rf.feature_importances_
+    # Handle numpy arrays and pandas index for columns
+    try:
+        feature_names = X_test.columns
+    except Exception:
+        # If X_test is a numpy array, create generic feature names
+        feature_names = [f"f{i}" for i in range(X_test.shape[1])]
+
+    sorted_index = np.argsort(importances)
+
+    plt.figure(figsize=(8, max(4, 0.3 * len(importances))))
+    plt.barh(np.array(feature_names)[sorted_index], importances[sorted_index])
+    plt.xlabel("Feature Importance Score")
+    plt.title("Random Forest Feature Importance")
+    plt.tight_layout()
+    plt.show()
+
+    print("Evaluation complete. All metrics and plots generated.")
+    return df
+
+if __name__ == "__main__":
+    evaluate_models()
