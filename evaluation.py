@@ -43,7 +43,7 @@ import seaborn as sns
 import numpy as np
 
 
-# Main Evaluation
+# Main Evaluation Function
 def evaluate_models():
 
     # Load Trained Models and Test Data
@@ -100,6 +100,8 @@ def evaluate_models():
         plt.xlabel("Predicted")
         plt.ylabel("Actual")
         plt.show()
+        # Results of confusion matrices help to visualize model performance in terms of true/false positives and negatives
+        # This is crucial for understanding how well the model distinguishes between classes, which is a main goal of our project
 
 
     # Convert metrics dictionary to DataFrame
@@ -110,6 +112,8 @@ def evaluate_models():
 
 
     # ROC Curves
+    # Results from this plot help to visualize model performance across different thresholds
+    # Higher AUC indicates better model performance, which this plot illustrates extremely well
     print("Generating ROC curves...\n")
     plt.figure(figsize=(8, 6))
     for name, model in models.items():
@@ -127,6 +131,7 @@ def evaluate_models():
 
 
     # Precision-Recall Curves
+    # Results from this plot help to understand model performance on imbalanced datasets
     print("Generating Precision–Recall curves...\n")
     plt.figure(figsize=(8, 6))
     for name, model in models.items():
@@ -143,6 +148,7 @@ def evaluate_models():
 
 
     # Random Forest feature importances
+    # This demonstrates the importance of PCA features used in the Random Forest model
     print("Computing Random Forest feature importance...\n")
     importances = rf.feature_importances_
     # Handle numpy arrays and pandas index for columns
